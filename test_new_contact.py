@@ -46,6 +46,7 @@ class TestNewContact(unittest.TestCase):
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
+        # заполнение информации о контакте
         wd.find_element_by_name("firstname").send_keys("Ada")
         wd.find_element_by_name("middlename").click()
         wd.find_element_by_name("middlename").clear()
