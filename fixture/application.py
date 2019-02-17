@@ -1,8 +1,6 @@
 from selenium import webdriver
 from fixture.session import SessionHelper
 from fixture.group import GroupHelper
-#from selenium.common.exceptions import NoSuchElementException
-#from selenium.common.exceptions import NoAlertPresentException
 class Application:
 
     def __init__(self):
