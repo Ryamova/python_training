@@ -1,7 +1,7 @@
 
 import pytest
 from model.contact import Contact
-from fixture.application_cont import Application
+from fixture.application import Application
 
 @pytest.fixture
 def app(request):
@@ -10,17 +10,17 @@ def app(request):
         return fixture
 
 def test_new_contact(app):
-        app.login(username="admin", password="secret")
-        app.filling_in_contact_creation(Contact(name="gdkfhnv", header="fhhjdkjc", footer="fhghjjss"))
-        app.submit_contact_creation()
-        app.logout()
-        app.filling_in_fields()
+        app.session.login(username="admin", password="secret")
+        app.contact.filling_in_contact_creation(Contact(name="gdkfhnv", header="fhhjdkjc", footer="fhghjjss"))
+        app.contact.submit_contact_creation()
+        app.session.logout()
+        app.contact.filling_in_fields()
 
 def test_newempty_contact(app):
-        app.login(username="admin", password="secret")
-        app.filling_in_contact_creation(Contact(name="1234509", header="0987666566", footer="5656789900"))
-        app.submit_contact_creation()
-        app.logout()
-        app.filling_in_fields()
+        app.session.login(username="admin", password="secret")
+        app.contact.filling_in_contact_creation(Contact(name="1234509", header="0987666566", footer="5656789900"))
+        app.contact.submit_contact_creation()
+        app.session.logout()
+        app.contact.filling_in_fields()
 
 

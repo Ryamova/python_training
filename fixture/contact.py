@@ -1,30 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
+from fixture.session import SessionHelper
 
-class Application:
 
-    def __init__(self):
-        self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(30)
-
-    def test_new_contact(self):
-        self.login(username="admin", password="secret")
-        self.filling_in_contact_creation(Contact(name="gdkfhnv", header="fhhjdkjc", footer="fhghjjss"))
-        self.submit_contact_creation()
-        self.logout()
-        self.filling_in_fields()
-
-    def test_newempty_contact(self):
-        self.login(username="admin", password="secret")
-        self.filling_in_contact_creation(Contact(name="1234509", header="0987666566", footer="5656789900"))
-        self.submit_contact_creation()
-        self.logout()
-        self.filling_in_fields()
+class ContactHelper:
+    def __init__(self,app):
+        self.app = app
 
     def filling_in_fields(self):
-        wd = self.wd
+        wd = self.app.wd
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
         wd.find_element_by_name("user").click()
@@ -107,22 +91,18 @@ class Application:
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
 
-    def logout(self):
-        wd = self.wd
-        wd.find_element_by_link_text("Logout").click()
-
     def return_to_add_new(self):
-        wd = self.wd
+        wd = self.app.wd
         wd.find_element_by_link_text("group page").click()
         wd.find_element_by_link_text("groups").click()
 
     def submit_contact_creation(self):
-        wd = self.wd
+        wd = self.app.wd
         wd.find_element_by_name("submit").click()
         self.return_to_add_new()
 
     def filling_in_contact_creation(self, contact):
-        wd = self.wd
+        wd = self.app.wd
         self.open_contact_creation()
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
@@ -135,24 +115,13 @@ class Application:
         wd.find_element_by_name("group_footer").send_keys(contact.footer)
 
     def open_contact_creation(self):
-        wd = self.wd
+        wd = self.app.wd
         wd.find_element_by_name("new").click()
 
-    def login(self, username, password):
-        wd = self.wd
-        self.open_home_page()
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_id("LoginForm").click()
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def open_home_page(self):
-        wd = self.wd
+        wd = self.app.wd
         wd.get("http://localhost/addressbook/group.php")
 
     def destroy (self):
-        self.wd.quit()
+        self.app.wd.quit()

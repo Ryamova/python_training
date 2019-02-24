@@ -2,17 +2,9 @@ class GroupHelper:
     def __init__(self,app):
         self.app = app
 
-    def test_add_group(self):
+    def open_contact_creation(self):
         wd = self.app.wd
-        self.app.login(username="admin", password="secret")
-        self.create(Group(name="gdkfhnv", header="fhhjdkjc", footer="fhghjjss"))
-        self.app.logout()
-
-    def test_add_empty_group(self):
-        wd = self.app.wd
-        self.app.login(username="admin", password="secret")
-        self.create(Group(name="", header="", footer=""))
-        self.app.logout()
+        wd.find_element_by_name("new").click()
 
     def return_to_groups_page(self):
         wd = self.app.wd
