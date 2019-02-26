@@ -118,10 +118,20 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("new").click()
 
+    def delete_first_contact(self):
+        wd = self.app.wd
+        self.open_home_page()
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # submit deletion
+        wd.find_element_by_xpath("//a[contains(@href,'edit.php?id=')]").click()
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        self.open_home_page()
+        #self.return_to_add_new()
 
     def open_home_page(self):
         wd = self.app.wd
-        wd.get("http://localhost/addressbook/group.php")
+        wd.get("http://localhost/addressbook")
 
     def destroy (self):
         self.app.wd.quit()
