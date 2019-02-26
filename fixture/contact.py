@@ -114,7 +114,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//a[contains(@href,'edit.php?id=')]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         self.open_home_page()
-        #self.return_to_add_new()
+
 
     def open_home_page(self):
         wd = self.app.wd
