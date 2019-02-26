@@ -6,16 +6,24 @@ from fixture.application import Application
 
 def test_new_contact(app):
         app.session.login(username="admin", password="secret")
-        app.contact.filling_in_contact_creation(Contact(name="gdkfhnv", header="fhhjdkjc", footer="fhghjjss"))
+        app.contact.filling_in_contact_creation(Contact( firstname = "Ada", middlename = "dad", lastname = "Rad",
+                 nickname = "Red", title = "hfkkfd", company = "fgdds", address = "shnat fjndj 8", home = "89253748",
+                 mobile = "34567766", work = "44444", fax = "3324", email = "wweiehhc@kjdnd",bday = "15", bmonth = "August",
+                 byear = "1991", aday = "14", amonth = "November", ayear = "2302", address2 = "jdskflvbm,c78",
+                 phone2 = "jdsk48309", notes = "hfkdn"))
         app.contact.submit_contact_creation()
         app.session.logout()
-        app.contact.filling_in_fields()
+
 
 def test_newempty_contact(app):
         app.session.login(username="admin", password="secret")
-        app.contact.filling_in_contact_creation(Contact(name="1234509", header="0987666566", footer="5656789900"))
+        app.contact.filling_in_contact_creation(Contact(firstname = "", middlename = "", lastname = "",
+                 nickname = "", title = "", company = "", address = "", home = "",
+                 mobile = "", work = "", fax = "", email = "",bday = "15", bmonth = "August",
+                 byear = "1991", aday = "14", amonth = "November", ayear = "2302", address2 = "",
+                 phone2 = "", notes = ""))
         app.contact.submit_contact_creation()
         app.session.logout()
-        app.contact.filling_in_fields()
+
 
 
