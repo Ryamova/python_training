@@ -115,13 +115,13 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         self.open_home_page()
 
-    def modif_contact(self):
+    def modify(self,contact):
         wd = self.app.wd
         self.open_home_page()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//img[contains(@title,'Edit')]").click()
-        wd.find_element_by_name("firstname[]").click()
-        wd.find_element_by_xpath("//name[@value='update']").click()
+        self.filling_in_fields(contact)
+        wd.find_element_by_xpath("//input[@name='update']").click()
         self.open_home_page()
 
 
