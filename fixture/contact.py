@@ -120,6 +120,8 @@ class ContactHelper:
 
     def open_home_page(self):
         wd = self.app.wd
+        #if not (wd.current_url.endswith("/group.php") and len(wd.find_element_by_link_text("All e-mail"))>0):
+            #wd.find_element_by_link_text("All e-mail").click()
         wd.get("http://localhost/addressbook")
 
     def destroy (self):
