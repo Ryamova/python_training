@@ -1,6 +1,7 @@
-from selenium import webdriver
+
 from selenium.webdriver.support.ui import Select
-from fixture.session import SessionHelper
+from model.contact import Contact
+
 
 
 class ContactHelper:
@@ -126,3 +127,13 @@ class ContactHelper:
 
     def destroy (self):
         self.app.wd.quit()
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.open_home_page()
+        contacts = []
+        for element in wd.find_elements_by_css_selector("td"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("type")
+            contacts.append(Contact(lastname = text, id = id))
+        return contacts
