@@ -121,8 +121,12 @@ class ContactHelper:
 
     def open_home_page(self):
         wd = self.app.wd
-        #if not (wd.current_url.endswith("/group.php") and len(wd.find_element_by_link_text("All e-mail"))>0):
-            #wd.find_element_by_link_text("All e-mail").click()
+        if not (wd.current_url.endswith("/group.php")):
+            array = wd.find_elements_by_name("searchstring")
+            if len(array) > 0:
+                for element in array:
+                    element.click()
+
         wd.get("http://localhost/addressbook")
 
     def destroy (self):
@@ -132,8 +136,8 @@ class ContactHelper:
         wd = self.app.wd
         self.open_home_page()
         contacts = []
-        for element in wd.find_elements_by_css_selector("td"):
+        for element in wd.find_elements_by_name("selected[]"):
             text = element.text
-            id = element.find_element_by_name("selected[]").get_attribute("type")
+            id = element.get_attribute("value")
             contacts.append(Contact(lastname = text, id = id))
         return contacts

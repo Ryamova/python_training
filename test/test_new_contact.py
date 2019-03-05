@@ -12,7 +12,7 @@ def test_new_contact(app):
                  byear = "1991", aday = "14", amonth = "November", ayear = "2302", address2 = "jdskflvbm,c78",
                  phone2 = "jdsk48309", notes = "hfkdn"))
         app.contact.submit_contact_creation()
-        new_contacts = app.contact.get_contact_list
+        new_contacts = app.contact.get_contact_list()
         assert len(old_contacts) + 1 == len(new_contacts)
 
 
