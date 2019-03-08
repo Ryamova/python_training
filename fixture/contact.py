@@ -137,6 +137,8 @@ class ContactHelper:
         self.open_home_page()
         contacts = []
         for element in wd.find_elements_by_name("selected[]"):
+            #parent = element.parent().parent()
+            parent.find_element_by_name()
             text = element.text
             id = element.get_attribute("value")
             contacts.append(Contact(lastname = text, id = id))
