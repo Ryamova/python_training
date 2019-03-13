@@ -13,8 +13,8 @@ def test_new_contact(app):
                  phone2 = "jdsk48309", notes = "hfkdn")
         app.contact.filling_in_contact_creation(contact)
         app.contact.submit_contact_creation()
+        assert len(old_contacts) + 1 == app.contact.count()
         new_contacts = app.contact.get_contact_list()
-        assert len(old_contacts) + 1 == len(new_contacts)
         old_contacts.append(contact)
         def id_or_max(ct):
             if ct.id:
