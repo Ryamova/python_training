@@ -79,13 +79,18 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_xpath("//a[@href='edit.php']").click()
 
-
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def modify_first_contact(self):
+        self.modify_contact_by_index(0)
+
+    def delete_contact_by_index(self,index):
         wd = self.app.wd
         self.open_home_page()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         # submit deletion
-        wd.find_element_by_xpath("//a[contains(@href,'edit.php?id=')]").click()
+        self.edit_contact_by_index(index)
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         self.open_home_page()
         self.contact_cache = None
@@ -93,6 +98,10 @@ class ContactHelper:
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
+
+    def select_contact_by_index(self,index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def modify(self,contact):
         wd = self.app.wd
@@ -103,18 +112,26 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@name='update']").click()
         self.open_home_page()
 
-    def modify_first_contact(self,new_contact_data):
+    def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
         self.open_home_page()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         #open modification form
-        wd.find_element_by_xpath("//img[contains(@title,'Edit')]").click()
+        self.edit_contact_by_index(index)
         #fill contact form
         self.fill_contact_form(new_contact_data)
         #submit modification
         wd.find_element_by_xpath("//input[@name='update']").click()
         self.open_home_page()
         self.contact_cache = None
+
+    def edit_contact_by_index(self,index):
+        wd = self.app.wd
+        c = 0
+        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+            if c == index:
+                element.find_elements_by_tag_name("td")[7].find_element_by_tag_name("img").click()
+            c = c + 1
 
     def count(self):
         wd = self.app.wd
