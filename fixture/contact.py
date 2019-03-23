@@ -21,9 +21,9 @@ class ContactHelper:
         self.change_field_value("title", contact.title)
         self.change_field_value("company", contact.company)
         self.change_field_value("address", contact.address)
-        self.change_field_value("home", contact.home)
-        self.change_field_value("mobile", contact.mobile)
-        self.change_field_value("work", contact.work)
+        self.change_field_value("home", contact.homephone)
+        self.change_field_value("mobile", contact.mobilephone)
+        self.change_field_value("work", contact.workphone)
         self.change_field_value("fax", contact.fax)
         self.change_field_value("email", contact.email)
         self.change_field_value_day("bday", contact.bday)
@@ -33,7 +33,7 @@ class ContactHelper:
         self.change_field_value_day("amonth", contact.amonth)
         self.change_field_value("ayear", contact.ayear)
         self.change_field_value("address2", contact.address2)
-        self.change_field_value("phone2", contact.phone2)
+        self.change_field_value("phone2", contact.secondaryphone)
         self.change_field_value("notes", contact.notes)
 
     def change_field_value_day(self, field_name, text):
@@ -161,9 +161,35 @@ class ContactHelper:
             self.open_home_page()
             self.contact_cache = []
             for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
-                id = element.find_element_by_name("selected[]").get_attribute("value")
                 tds = element.find_elements_by_tag_name("td")
                 lastName = tds[1].text
                 firstName = tds[2].text
-                self.contact_cache.append(Contact(firstname=firstName, lastname=lastName, id=id))
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                all_phones=tds[5].text.splitlines()
+
+                homephone = ''
+                if len(all_phones) > 0: homephone = all_phones[0]
+                mobilephone = ''
+                if len(all_phones) > 1: mobilephone = all_phones[1]
+                workphone = ''
+                if len(all_phones) > 2: workphone = all_phones[2]
+                secondaryphone = ''
+                if len(all_phones) > 3: secondaryphone = all_phones[3]
+
+                self.contact_cache.append(Contact(firstname=firstName, lastname=lastName, id=id,
+                                                  homephone=homephone,mobilephone=mobilephone,
+                                                  workphone=workphone,secondaryphone=secondaryphone))
         return list(self.contact_cache)
+
+    def get_contact_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.edit_contact_by_index(index)
+        firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        id = wd.find_element_by_name("id").get_attribute("value")
+        homephone = wd.find_element_by_name("home").get_attribute("value")
+        workphone = wd.find_element_by_name("work").get_attribute("value")
+        mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
+        secondaryphone = wd.find_element_by_name("phone2").get_attribute("value")
+        return Contact (firstname=firstname,lastname=lastname,id=id,
+                        homephone=homephone,workphone=workphone,mobilephone=mobilephone,secondaryphone=secondaryphone)
